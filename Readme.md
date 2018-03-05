@@ -1,1 +1,1 @@
-"# tyni_spring_study" 
+# tyni_spring_study 
