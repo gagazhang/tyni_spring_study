@@ -1,4 +1,4 @@
-package com.iflytek.spring.study;
+package com.iflytek.spring.study.test;
 
 /**
  * @author : wei
@@ -6,9 +6,9 @@ package com.iflytek.spring.study;
  */
 public class HelloService {
 
-
+    private String name;
 
     public void sayHello(){
-        System.out.println("hello world");
+        System.out.println("hello " + name);
     }
 }

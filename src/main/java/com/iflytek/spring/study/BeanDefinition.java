@@ -6,11 +6,33 @@ package com.iflytek.spring.study;
  */
 public class BeanDefinition {
 
+    /**
+     * 被封装的bean
+     */
     private Object bean;
 
+    /**
+     * bean class
+     */
     private Class beanClass;
 
+    /**
+     * bean class name
+     */
     private String beanClassName;
+
+    /**
+     * bean 属性
+     */
+    private PropertyValues propertyValues;
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
+    }
 
     public BeanDefinition() {
     }
