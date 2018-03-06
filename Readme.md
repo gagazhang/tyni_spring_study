@@ -24,6 +24,27 @@ AutowireCapableBeanFactory
 ---
 ### step_2
 
+step_2 的更新，主要是为bean 增加了添加属性的功能
+
+```
+PropertyValue
+```
+对Bean的属性做了封装，主要是属性名和属性对应的值（Object）
+
+
+```
+PropertyValues
+```
+使用List接口，对PropertyValue做了一次封装
+
+
+```
+AutowireCapableBeanFactory
+```
+增加了设置属性的功能，主要是通过反射拿到Field 的信息，然后调用field.set(instance, value) 的方法，为相应的属性设置值
+
+
+
 ---
 
 ### step_3
