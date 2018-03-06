@@ -19,7 +19,7 @@ BeanFactory
 ```
 AutowireCapableBeanFactory
 ```
-这个类在注册BeanDefinition 的时候，通过BeanDefinition 找到Class信息，通过反射的方式的，newInstance() 了一个对象，放到了Map<String,BeanDefinition> 中。使用CurrentHashMap 保证多线程的访问的安全性。
+这个类在注册BeanDefinition 的时候，通过BeanDefinition 找到Class信息，通过反射的方式的，newInstance() 了一个对象，放到了Map<String,BeanDefinition> 中。使用ConcurrentHashMap 保证多线程的访问的安全性。
 
 ---
 ### step_2
@@ -108,6 +108,27 @@ XmlBeanDefinitionReader
 ---
 
 ### step_4
+
+step_4 主要实现了inject bean to bean ，示例中使用了tinyioc.xml 的配置文件，其中配置了两个bean, helloService 和 outputService, 并且这两个bean 相互依赖。
+
+step_4 和 step_3 一样，同样需要两个步骤，读取资源和beanFactory 注册。
+
+但是==不同点==如下：step_3 中 beanFactory 是在bean 注册时初始化，但是从读取的资源注册到beanFactory 是一个顺序的过程，例如示例中先注册 outputService, 后注册 helloService(因为配置文件定义的顺序)，这是outputService 的 实例化依赖 helloService ,但是这是，helloService 的BeanDefinition 还未加入到 BeanDefinition 的Map中，所以初始化失败。
+
+==因此==，step_4 最重要的变化是使用了延迟初始化，即在getBean 的函数中进行了Bean的初始化。
+
+step_4 的重要演进有两点，1. 新增了类BeanReference ，2. BeanFactory 的Bean的初始化，放在了getBean 的 函数中，同时提供预初始化机制，即在bean 全部注册完成以后，使用preInstantiateSingletons 的方法，预初始化单例bean.
+
+
+```
+BeanReference
+```
+
+简单封装了name, Object bean两个属性。
+
+---
+
+### step_5
 
 ---
 
