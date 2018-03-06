@@ -8,7 +8,7 @@ import com.iflytek.spring.study.BeanDefinition;
  */
 public interface BeanFactory {
 
-    Object getBean(String beanName);
+    Object getBean(String beanName) throws Exception;
 
     void registerBeanDefinition(String bean, BeanDefinition beanDefinition) throws Exception;
 

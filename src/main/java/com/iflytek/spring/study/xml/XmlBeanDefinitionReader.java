@@ -2,6 +2,7 @@ package com.iflytek.spring.study.xml;
 
 import com.iflytek.spring.study.AbstractBeanDefinitionReader;
 import com.iflytek.spring.study.BeanDefinition;
+import com.iflytek.spring.study.BeanReference;
 import com.iflytek.spring.study.PropertyValue;
 import com.iflytek.spring.study.io.ResourcesLoader;
 import org.w3c.dom.Document;
@@ -99,7 +100,19 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
                 Element propertyEle = (Element) node;
                 String name = propertyEle.getAttribute("name");
                 String value = propertyEle.getAttribute("value");
-                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,value));
+                if(value != null && value.length() > 0){
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,value));
+                }
+                else{
+                    String ref = propertyEle.getAttribute("ref");
+                    if(ref == null || ref.length() == 0){
+                        throw new IllegalArgumentException("Configuration problem: <property> element " +
+                                " must specify a ref or value");
+                    }
+                    BeanReference reference = new BeanReference();
+                    reference.setName(ref);
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,reference));
+                }
             }
         }
     }

@@ -8,7 +8,10 @@ public class HelloService {
 
     private String name;
 
+    private OutputService outputService;
+
     public void sayHello(){
-        System.out.println("hello " + name);
+        outputService.output(name);
     }
+
 }
