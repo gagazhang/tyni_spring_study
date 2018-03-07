@@ -155,6 +155,37 @@ BeanFactory 和 ApplicationContext 的关注点不同，BeanFactory 只剩下一
 
 ### step_6
 
+从step_6 往后，主要是探讨spring 中 AOP的实现方式，前面的部分主要探讨IOC的实现方式。
+
+step_6 主要引入两个框架，aopalliance 和 JDK 的danymicProxy 方式，因此pom 文件中引入了aopalliance 依赖，代码如下：
+
+```
+<dependency>
+      <groupId>aopalliance</groupId>
+      <artifactId>aopalliance</artifactId>
+      <version>1.0</version>
+</dependency>
+```
+
+step_6 的核心类是
+
+```
+JdkDynamicAopProxy
+```
+JdkDynamicAopProxy 主要的提供一个能力，使用Proxy.newProxyInstance 的方法提供一个代理对象。代理对象的使用流程如下：
+1. 调用代理对象的相关方法，本例中为HelloService 中sayHello()方法
+2. 回调到InvocationHandler.invoke() 方法
+3. 在InvocationHandler.invoke() 中方法中，获取之前封装的MethodInterceptor.invoke()方法，该方法接受一个MethodInvocation 的对象。
+4. 本例中，跳转到TimerInterceptor.invoke()方法
+5. 跳转到ReflectiveMethodInvocation.preceed()方法进行处理
+6. 返回结果，结束
+
+---
+
+### step_7
+
+
+
 ---
 
 
