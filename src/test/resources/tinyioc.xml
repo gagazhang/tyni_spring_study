@@ -12,7 +12,7 @@
         <property name="helloService" ref="helloService"></property>
     </bean>
 
-    <bean name="helloService" class="com.iflytek.spring.study.test.HelloService">
+    <bean name="helloService" class="com.iflytek.spring.study.test.HelloServiceImpl">
         <property name="name" value="zhaolei"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
