@@ -1,6 +1,6 @@
-package com.iflytek.spring.study.factory;
+package com.iflytek.spring.study.beans.factory;
 
-import com.iflytek.spring.study.BeanDefinition;
+import com.iflytek.spring.study.beans.BeanDefinition;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +52,6 @@ public abstract class AbstractBeanFactory implements BeanFactory{
      * @param beanDefinition
      * @throws Exception
      */
-    @Override
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition) throws Exception {
         beanDefinitionMap.put(name,beanDefinition);
         beanDefinitionNames.add(name);

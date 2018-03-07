@@ -1,7 +1,7 @@
-package com.iflytek.spring.study.test.io;
+package com.iflytek.spring.study.test.beans.io;
 
-import com.iflytek.spring.study.io.Resource;
-import com.iflytek.spring.study.io.ResourcesLoader;
+import com.iflytek.spring.study.beans.io.Resource;
+import com.iflytek.spring.study.beans.io.ResourcesLoader;
 import org.junit.Assert;
 import org.junit.Test;
 

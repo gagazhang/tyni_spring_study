@@ -1,8 +1,8 @@
-package com.iflytek.spring.study.factory;
+package com.iflytek.spring.study.beans.factory;
 
-import com.iflytek.spring.study.BeanDefinition;
-import com.iflytek.spring.study.BeanReference;
-import com.iflytek.spring.study.PropertyValue;
+import com.iflytek.spring.study.beans.BeanDefinition;
+import com.iflytek.spring.study.beans.BeanReference;
+import com.iflytek.spring.study.beans.PropertyValue;
 
 import java.lang.reflect.Field;
 

@@ -1,8 +1,8 @@
-package com.iflytek.spring.study.test.xml;
+package com.iflytek.spring.study.test.beans.xml;
 
-import com.iflytek.spring.study.BeanDefinition;
-import com.iflytek.spring.study.io.ResourcesLoader;
-import com.iflytek.spring.study.xml.XmlBeanDefinitionReader;
+import com.iflytek.spring.study.beans.BeanDefinition;
+import com.iflytek.spring.study.beans.io.ResourcesLoader;
+import com.iflytek.spring.study.beans.xml.XmlBeanDefinitionReader;
 import org.junit.Assert;
 import org.junit.Test;
 

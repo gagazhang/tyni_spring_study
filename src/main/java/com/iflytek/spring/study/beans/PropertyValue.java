@@ -1,4 +1,4 @@
-package com.iflytek.spring.study;
+package com.iflytek.spring.study.beans;
 
 /**
  * @author : wei

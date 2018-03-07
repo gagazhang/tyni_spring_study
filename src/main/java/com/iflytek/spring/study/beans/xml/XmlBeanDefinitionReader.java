@@ -1,10 +1,10 @@
-package com.iflytek.spring.study.xml;
+package com.iflytek.spring.study.beans.xml;
 
-import com.iflytek.spring.study.AbstractBeanDefinitionReader;
-import com.iflytek.spring.study.BeanDefinition;
-import com.iflytek.spring.study.BeanReference;
-import com.iflytek.spring.study.PropertyValue;
-import com.iflytek.spring.study.io.ResourcesLoader;
+import com.iflytek.spring.study.beans.AbstractBeanDefinitionReader;
+import com.iflytek.spring.study.beans.BeanDefinition;
+import com.iflytek.spring.study.beans.BeanReference;
+import com.iflytek.spring.study.beans.PropertyValue;
+import com.iflytek.spring.study.beans.io.ResourcesLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

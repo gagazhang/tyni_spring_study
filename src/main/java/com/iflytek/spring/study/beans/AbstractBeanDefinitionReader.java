@@ -1,6 +1,6 @@
-package com.iflytek.spring.study;
+package com.iflytek.spring.study.beans;
 
-import com.iflytek.spring.study.io.ResourcesLoader;
+import com.iflytek.spring.study.beans.io.ResourcesLoader;
 
 import java.util.HashMap;
 import java.util.Map;

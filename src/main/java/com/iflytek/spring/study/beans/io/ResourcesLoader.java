@@ -1,4 +1,4 @@
-package com.iflytek.spring.study.io;
+package com.iflytek.spring.study.beans.io;
 
 import java.net.URL;
 
