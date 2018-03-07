@@ -130,5 +130,31 @@ BeanReference
 
 ### step_5
 
+熟悉的ApplicationContext 终于来了，本次主要添加了一个接口：
+
+```
+ApplicationContext
+```
+一个抽象类
+
+```
+AbstractApplicationContext
+```
+和一个实现类 
+
+```
+ClassPathXmlApplicationContext
+```
+
+
+BeanFactory 和 ApplicationContext 的关注点不同，BeanFactory 只剩下一个接口，getBean(String beanName),ApplicationContext 使用代理模式代理了BeanFactory ，并且增加了资源管理相关的工作。
+
+经过重构后的代码，就看到了spring 熟悉的 Application.getBean(beanName) 的使用模式了。
+
 ---
+
+### step_6
+
+---
+
 
