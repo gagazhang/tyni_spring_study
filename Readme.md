@@ -184,8 +184,49 @@ JdkDynamicAopProxy 主要的提供一个能力，使用Proxy.newProxyInstance �
 
 ### step_7
 
+step_7 按照计划，本来是是要继续更新AOP的相关内容，但是整理了原作者的思路以后，感觉还是step_7 应该分两步来实施，本章节中重点改造了AbstractBeanFactory and AbstractApplicationContext ，理解了这一部分，对后面AspectJ 的学习打下了基础。
 
+本节中重点添加的模块
+
+```
+public interface BeanPostProcessor {
+
+    Object postProcessBeforeInitialization(Object bean, String beanName) throws Exception;
+
+    Object postProcessAfterInitialization(Object bean, String beanName) throws Exception;
+}
+```
+BeanPostProcessor 主要提供两个接口，简单说就是在before bean init 和 after bean init 中添加相关的代码，这一部分和AOP 无关。因此可以不需要关心AOP 包下面的内容的修改
+
+BeanPostProcessor 在本节中的一个实现类为：
+
+```
+BeanInitializationLogger
+```
+
+该类什么都没做，就是println() 了两行日志，详细可以参考代码，实现比较简单。
+
+重点单元测试主要修改了
+
+```
+ApplicationContextTest
+```
+配合测试的文件增加了
+
+```
+tinyioc-postbeanprocessor.xml
+```
+
+>**Tip** , 在原作者的实现中，xml 文件中bean 定义的name, 改成了spring中熟悉 id, 这点要注意，不然排查起代码来会花费写时间
 
 ---
+
+### step_8
+
+### step_9
+
+### over
+
+
 
 
