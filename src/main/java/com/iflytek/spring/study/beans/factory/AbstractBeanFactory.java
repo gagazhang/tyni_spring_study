@@ -1,6 +1,7 @@
 package com.iflytek.spring.study.beans.factory;
 
 import com.iflytek.spring.study.beans.BeanDefinition;
+import com.iflytek.spring.study.beans.BeanPostProcessor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +22,12 @@ public abstract class AbstractBeanFactory implements BeanFactory{
      */
     private List<String> beanDefinitionNames = new ArrayList<String>();
 
+    /**
+     * 增加BeanPostProcessor 的集合,在这个集合中的每一个处理器，都需要处理Bean 创建以后，
+     * before_init 和 post_init 的方法
+     */
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
     @Override
     public Object getBean(String beanName) throws Exception{
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
@@ -30,6 +37,20 @@ public abstract class AbstractBeanFactory implements BeanFactory{
         Object bean = beanDefinition.getBean();
         if(bean == null){
             bean = doCreateBean(beanDefinition);
+            bean = initializeBean(bean,beanName);
+        }
+        return bean;
+    }
+
+    private Object initializeBean(Object bean, String beanName) throws Exception {
+        for(BeanPostProcessor beanPostProcessor : beanPostProcessors){
+            bean = beanPostProcessor.postProcessBeforeInitialization(bean,beanName);
+        }
+
+        //TODO : call initialize method
+
+        for(BeanPostProcessor beanPostProcessor : beanPostProcessors){
+            bean = beanPostProcessor.postProcessAfterInitialization(bean,beanName);
         }
         return bean;
     }
@@ -58,4 +79,34 @@ public abstract class AbstractBeanFactory implements BeanFactory{
     }
 
     protected abstract Object doCreateBean(BeanDefinition beanDefinition) throws Exception;
+
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    /**
+     * 根据超类，或者超集合，获取一批的Bean
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    public List<Object> getBeansForType(Class type) throws Exception{
+        List<Object> beans = new ArrayList<Object>();
+        for(String beanDefiniationName : beanDefinitionNames){
+            if(type.isAssignableFrom(beanDefinitionMap.get(beanDefiniationName).getBeanClass())){
+                beans.add(getBean(beanDefiniationName));
+            }
+        }
+        return beans;
+    }
+
+    /**
+     * 本次修改主要更改了函数的访问级别
+     * @param bean
+     * @param beanDefinition
+     * @throws Exception
+     */
+    protected void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws Exception {
+
+    }
 }

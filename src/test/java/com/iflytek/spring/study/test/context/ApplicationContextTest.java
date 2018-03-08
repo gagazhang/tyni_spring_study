@@ -11,10 +11,18 @@ import org.junit.Test;
  */
 public class ApplicationContextTest {
 
-    @Test
+
+//    @Test
     public void testApplication() throws Exception {
         ApplicationContext appContext = new ClassPathXmlApplicationContext("tinyioc.xml");
         HelloService helloService = (HelloService) appContext.getBean("helloService");
         helloService.sayHello();
+    }
+
+    @Test
+    public void testPostBeanProcessor() throws Exception{
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("tinyioc-postbeanprocessor.xml");
+        HelloService helloWorldService = (HelloService) applicationContext.getBean("helloService");
+        helloWorldService.sayHello();
     }
 }

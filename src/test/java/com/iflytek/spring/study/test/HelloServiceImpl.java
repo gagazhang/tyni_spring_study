@@ -8,7 +8,7 @@ public class HelloServiceImpl implements HelloService{
 
     private String name;
 
-    private OutputService outputService;
+    private OutputServiceImpl outputService;
 
     @Override
     public void sayHello(){
