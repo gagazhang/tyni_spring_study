@@ -8,10 +8,14 @@ public class HelloServiceImpl implements HelloService{
 
     private String name;
 
-    private OutputServiceImpl outputService;
+    private OutputService outputService;
 
     @Override
     public void sayHello(){
         outputService.output(name);
+    }
+
+    public void setOutputService(OutputService outputService) {
+        this.outputService = outputService;
     }
 }

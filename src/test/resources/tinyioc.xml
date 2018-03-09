@@ -9,12 +9,23 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <bean id="outputService" class="com.iflytek.spring.study.test.OutputServiceImpl">
-        <property name="helloService" ref="helloService"></property>
+        <!--step_8，循环依赖，对于AOP 会有影响，原因分析是：HelloServiceImpl 中拿到了一个
+         未经过BeanInitialization 过程的Bean，该Bean 不是代理生成， 因此不会走AOP相关的内容-->
+        <!--<property name="helloService" ref="helloService"></property>-->
     </bean>
 
     <bean id="helloService" class="com.iflytek.spring.study.test.HelloServiceImpl">
         <property name="name" value="zhaolei"></property>
         <property name="outputService" ref="outputService"></property>
+    </bean>
+
+    <bean id="autoProxyCreator" class="com.iflytek.spring.study.aop.AspectJAwareAdvisorAutoProxyCreator"></bean>
+
+    <bean id="timeInterceptor" class="com.iflytek.spring.study.test.aop.TimerInterceptor"></bean>
+
+    <bean id="aspectjAspect" class="com.iflytek.spring.study.aop.AspectJExpressionPointcutAdvisor">
+        <property name="advice" ref="timeInterceptor"></property>
+        <property name="expression" value="execution(* com.iflytek.spring.study.test.*.*(..))"></property>
     </bean>
 
 </beans>

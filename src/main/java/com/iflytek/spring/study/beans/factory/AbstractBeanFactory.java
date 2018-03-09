@@ -38,6 +38,7 @@ public abstract class AbstractBeanFactory implements BeanFactory{
         if(bean == null){
             bean = doCreateBean(beanDefinition);
             bean = initializeBean(bean,beanName);
+            beanDefinition.setBean(bean);
         }
         return bean;
     }
@@ -78,7 +79,16 @@ public abstract class AbstractBeanFactory implements BeanFactory{
         beanDefinitionNames.add(name);
     }
 
-    protected abstract Object doCreateBean(BeanDefinition beanDefinition) throws Exception;
+    protected Object doCreateBean(BeanDefinition beanDefinition) throws Exception{
+        Object bean = createBeanInstance(beanDefinition);
+        beanDefinition.setBean(bean);
+        applyPropertyValues(bean, beanDefinition);
+        return bean;
+    }
+
+    protected Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
+        return beanDefinition.getBeanClass().newInstance();
+    }
 
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
         this.beanPostProcessors.add(beanPostProcessor);
@@ -90,8 +100,8 @@ public abstract class AbstractBeanFactory implements BeanFactory{
      * @return
      * @throws Exception
      */
-    public List<Object> getBeansForType(Class type) throws Exception{
-        List<Object> beans = new ArrayList<Object>();
+    public List getBeansForType(Class type) throws Exception{
+        List beans = new ArrayList<Object>();
         for(String beanDefiniationName : beanDefinitionNames){
             if(type.isAssignableFrom(beanDefinitionMap.get(beanDefiniationName).getBeanClass())){
                 beans.add(getBean(beanDefiniationName));

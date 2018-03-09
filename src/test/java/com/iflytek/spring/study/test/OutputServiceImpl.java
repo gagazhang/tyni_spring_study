@@ -12,7 +12,6 @@ public class OutputServiceImpl implements OutputService{
 
     @Override
     public void output(String text){
-        Assert.assertNotNull(helloService);
         System.out.println("hello : " + text);
     }
 

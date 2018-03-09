@@ -1,10 +1,12 @@
 package com.iflytek.spring.study.beans.factory;
 
+import com.iflytek.spring.study.aop.BeanFactoryAware;
 import com.iflytek.spring.study.beans.BeanDefinition;
 import com.iflytek.spring.study.beans.BeanReference;
 import com.iflytek.spring.study.beans.PropertyValue;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * @author : wei
@@ -12,30 +14,32 @@ import java.lang.reflect.Field;
  */
 public class AutowireCapableBeanFactory extends AbstractBeanFactory{
 
-
-
     @Override
-    protected Object doCreateBean(BeanDefinition beanDefinition) throws Exception {
-        Object bean = createBeanInstance(beanDefinition);
-        beanDefinition.setBean(bean);
-        applyPropertyValues(bean,beanDefinition);
-        return bean;
-    }
-
     protected void applyPropertyValues(Object bean, BeanDefinition beanDefinition) throws Exception {
-        for(PropertyValue proValue : beanDefinition.getPropertyValues().getPropertyValues()){
-            Field declareField = bean.getClass().getDeclaredField(proValue.getName());
-            declareField.setAccessible(true);
-            Object value = proValue.getValue();
-            if(value instanceof BeanReference){
-                BeanReference reference = (BeanReference) value;
-                value = getBean(reference.getName());
+        if(bean instanceof BeanFactoryAware){
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
+        for(PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()){
+            Object value = propertyValue.getValue();
+            if (value instanceof BeanReference) {
+                BeanReference beanReference = (BeanReference) value;
+                value = getBean(beanReference.getName());
             }
-            declareField.set(bean,value);
+
+            try {
+                Method declaredMethod = bean.getClass().getDeclaredMethod(
+                        "set" + propertyValue.getName().substring(0, 1).toUpperCase()
+                                + propertyValue.getName().substring(1), value.getClass());
+                declaredMethod.setAccessible(true);
+
+                declaredMethod.invoke(bean, value);
+            } catch (NoSuchMethodException e) {
+                Field declaredField = bean.getClass().getDeclaredField(propertyValue.getName());
+                declaredField.setAccessible(true);
+                declaredField.set(bean, value);
+            }
         }
     }
 
-    private Object createBeanInstance(BeanDefinition beanDefinition) throws IllegalAccessException, InstantiationException {
-        return beanDefinition.getBeanClass().newInstance();
-    }
+
 }
