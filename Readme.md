@@ -223,6 +223,46 @@ tinyioc-postbeanprocessor.xml
 
 ### step_8
 
+step_8 引入了aspectj 框架实现的AOP，理解本章节的内容，需要对aspectj 有一定的了解。
+
+aspectj 的三个基本概念
+
+- Join point : 定义了新代码插入的位置，程序里面用到了execution，即函数执行内部。
+- pointcut :  提供了一种开发者能够选择自己需要的Joinpoint 的方法，在本例中aspectj 表达式来表述
+- advise :代码插入的方式，有before,after, around
+
+在本例中，同时结合了这三功能的类是：
+
+```
+AspectJExpressionPointcutAdvisor
+```
+
+其中AspectJExpresstionPointcut 是Pointcut，主要通过aspectj 表达式来构造，
+Advice 是TimerInterceptor，应该是采用aroud 的方式，即在before 和after 地方都插入了代码。
+
+AspectJExpressionPointcutAdvisor 在xml 文件中的定义如下：
+
+```
+<bean id="aspectjAspect" class="com.iflytek.spring.study.aop.AspectJExpressionPointcutAdvisor">
+        <property name="advice" ref="timeInterceptor"></property>
+        <property name="expression" value="execution(* com.iflytek.spring.study.test.*.*(..))"></property>
+</bean>
+```
+
+需要对表达式做一些说明
+- execution ：join point 类型，execution 代表函数执行内容，例如Log.e(),代表在e() 函数内容插入代码
+- 第一个* ：代表任意的返回类型
+- com.iflytek.spring.study.test.*.*: * 代表任意的匹配，表示这个表下面的类
+- (..):任意类型的参数
+
+
+
+
+>**tip** ,在本例中发现一个问题，就是step_8 的工程，如果同时出现了AOP 和循环引用，会发现AOP失效了，究其原因，就是在Bean初始化的过程中，循环引用的在XML文件中定义稍后的 bean, 拿到了一个原始的Bean，而不是代理的Bean，所以无法使用AOP。
+
+> **例如**：step_8 中，打开tinyioc.xml 文件中 outputService 的ref 定义，会发现outputService 中持有的helloService 是一个代理对象，而helloService 中却持有 outputService 的原始对象，因此调用helloService -> outputService的方法时，只有helloService 的方法可以实现AOP，而outputService 中的AOP并不生效。
+
+
 ### step_9
 
 ### over
